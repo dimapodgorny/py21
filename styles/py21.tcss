@@ -1,0 +1,49 @@
+Button {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+
+    border: none;
+
+    text_align: left;
+
+    background: #ff000000;
+    color: #ffffff;
+}
+
+Button:focus {
+    offset: 0 -1;
+    background: #ffffff00;
+    color: #ffffff;
+}
+
+Button:hover {
+    background: #ffffff00;
+    color: #ffffff00;
+}
+
+FindLobby {
+    align: center middle;
+}
+
+
+
+/* MainMenu */
+MainMenu {
+    
+}
+
+#MainMenuContainer {
+    align: center middle;
+}
+
+#MainMenuTitle {
+}
+
+#MainMenuButtons {
+    align: center bottom;
+    offset: 30 -5;
+    width: auto;
+    height: 7;
+}

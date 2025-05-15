@@ -2,20 +2,26 @@ from textual.app import App
 from textual.events import MouseEvent
 
 from py21components.menus import MainMenu
-from scripts.network import Network
 
-
+from _network_ import Server, Client
 
 class Py21App(App):
-    CSS_PATH = "styles\\py21.tcss"
+    CSS_PATH = "styles/py21.tcss"
     BINDINGS = [
         ("0", "exit_app", "Exit app")
         ]
     
+    def __init__(self):
+        super().__init__()
+        self.server = Server()
+        self.client = Client()
+        self.is_host : bool = False
+        
+        
+    
     def on_mount(self) -> None:
         self.push_screen(MainMenu())
         
-    ## Method binds
     def action_exit_app(self) -> None:
         self.exit()
         

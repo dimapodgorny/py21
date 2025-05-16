@@ -55,4 +55,4 @@ Congratulations you've run the app.
 
 4. Enter the port of the server when prompted to.
 
-### Congratulations! You can now send messages by writing a something and pressing enter. The message will be broadcasted to everyone other client. Or alternatively you can use commands by prefixing it's "id" with `/`. Use `/help` for a list of commands.
+Congratulations! You can now send messages by writing a something and pressing enter. The message will be broadcasted to everyone other client. Or alternatively you can use commands by prefixing it's "id" with `/`. Use `/help` for a list of commands.

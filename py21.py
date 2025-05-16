@@ -17,7 +17,6 @@ class Py21App(App):
         self.client = Client()
         self.is_host : bool = False
         
-        
     
     def on_mount(self) -> None:
         self.push_screen(MainMenu())
@@ -32,7 +31,7 @@ class Py21App(App):
         else:
             return await super().on_event(event)
 
+app = Py21App()
 
 if __name__ == "__main__":
-    app = Py21App()
     app.run()

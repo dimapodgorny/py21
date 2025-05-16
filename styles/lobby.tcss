@@ -1,0 +1,13 @@
+FindLobby {
+    max_width: 50vw;
+    max_height: 50vh;
+}
+
+FindLobbyContainer {
+    height: 30;
+    width: 40;
+}
+
+FindLobbyContainer > Input {
+    width: 50%;
+}

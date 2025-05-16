@@ -51,19 +51,32 @@ class Lobby(Screen):
         self.app.server.client_disconnected.connect(self.refresh_peers_list)
     
     def compose(self) -> ComposeResult:
-        with Container(id="LobbyContainer"):
-            self.PeersList : ListView = ListView()
+        yield Button("Refresh list", name="refresh_lobby")
+        with Container(id="LobbyContainer", classes="hidden"):
+            self.PeersList = ListView()
             with Vertical():
                 yield self.PeersList
+        yield Label("BRO", id="test")
 
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.name == "refresh_lobby":
+            self.refresh_peers_list()
+    
     def refresh_peers_list(self) -> None:
-        self.PeersList.clear()                                 # wipe old entries
-        for idx, client_sock in enumerate(self.app.server.clients, 1):
-            addr = client_sock.getpeername()
-            item = ListItem(Label(f"{idx}. {addr[0]}:{addr[1]}")) 
-            self.PeersList.append(item)
+        self.log("what")
         
-        self.call_later(self.recompose)
+        label = self.query_one("#test", Label)
+        label.update(
+            self.app.client.get_peers_list()
+        )
+
+        self.PeersList.clear()
+        for c in self.app.client.get_peer_names():
+            item = ListItem(Label(f"{c}"))
+            self.PeersList.append(item)
+            
+        
+        
             
 #
 
@@ -81,12 +94,9 @@ class FindLobby(ModalScreen):
             with Horizontal():
                 yield Button("Host", name="button_host")
                 yield Button("Join", name="button_join")
-
             
             yield Label("hi", id="cool_label")
             
-            
-    
     def on_button_pressed(self, event: Button.Pressed) -> None:
         addr_input = self.query_one("#lobby_input_address", Input)
         port_input = self.query_one("#lobby_input_port", Input)
@@ -116,8 +126,6 @@ class FindLobby(ModalScreen):
                     self.app.client.host = str(addr_input.value)
                     self.app.client.port = int(port_input.value)
 
-                        # Optional: start receiving in background if needed
-                        # client.receive(lambda data: print("Received:", data))
                     try:
                         self.app.pop_screen()  # Close the modal
                     except Exception as e:
@@ -127,7 +135,7 @@ class FindLobby(ModalScreen):
     
     #
     def on_server_creation_successful(self) -> None:
-        self.app.pop_screen()
+        self.app.pop_screen()   
         
     
     def on_server_creation_failed(self) -> None:

@@ -77,6 +77,7 @@ class Client:
     def __init__(self, host: str = "", port: int = 5000):
         self.host = host
         self.port = port
+        self.server : Server
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.running = False
         
@@ -109,5 +110,111 @@ class Client:
     def disconnect(self):
         self.running = False
         self.sock.close()
+        print("disconnected")
         
+        
+        
+        
+        
+if __name__ == "__main__":
+    while True:
+        i = input("host or join\n> ")
+        if i in ["host", "join"]:
+            break
+        
+    addr = input("ip=")
+    port = int(input("port="))
+    s = Server(
+        host=addr,
+        port=port
+    )
+    
+    c = Client(
+        host=addr,
+        port=port
+    )
+    c.server = s
+    
+    def handle_msg(data):
+        print(f"[remote]: {data.decode()}")
+    
+    def _whilechat_():
+        while True:
+            msg = input("> ")
+            if len(msg) > 0 and msg[0] == "/":
+                cmd = msg.removeprefix("/")
+                class Command:
+                    def __init__(self, id: str, *description: str, callback: any):
+                        self.id = id
+                        self.description = description
+                        self.callback = callback
+                    
+                    def call(self):
+                        self.callback()
+                
+                class Commands:
+                    def _help_() -> None:
+                        for _cmnd in commands:
+                            print(f"{_cmnd.id}: {_cmnd.description}")
+                    _help = Command(
+                        "help",
+                        "Prints a list of commands",
+                        callback=_help_
+                    )
+                            
+                    def _peers_():
+                        print(c.server.clients)
+                    _peers = Command(
+                        "peers",
+                        "Prints a list of connected peers",
+                        callback=_peers_
+                    )
+                    
+                
+                commands : list[Command] = [
+                    Commands._help,
+                    Commands._peers
+                ]
+                
+                for _cmnd in commands:
+                    if _cmnd.id == cmd:
+                        print(f"[{cmd}] == [{_cmnd.id}]")
+                        cmd = _cmnd
 
+                        _cmnd.call()
+                        
+                        break
+                
+            else:
+                c.send(msg.encode())
+        
+    
+    match i:
+        case "host":
+            print("starting the server")
+            s.start()
+            c.connect()
+
+            
+            c.receive(handle_msg)
+            try:
+                _whilechat_()
+            except KeyboardInterrupt:
+                print("shutting down")
+                for _client_ in s.clients:
+                    _client_.close()
+                
+                s.stop()
+                c.disconnect()
+
+            
+        case "join":
+            c.connect()
+
+            c.receive(handle_msg)
+            
+            try:
+                _whilechat_()
+            except KeyboardInterrupt:
+                c.send(f"{c.sock} disconnected".encode())
+                c.disconnect()

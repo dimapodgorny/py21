@@ -17,20 +17,14 @@ class MainMenu(Screen):
         self.call_later(lambda: self.app.set_focus(None))
         
     def compose(self) -> ComposeResult:
-        yield Container(
-            Label(self.MAINMENU.TITLE, id="MainMenuTitle"),
+        with Container(id="MainMenuContainer"):
+            yield Label(self.MAINMENU.TITLE, id="MainMenuTitle")
             
-            Horizontal(
-                Button(self.MAINMENU.BUTTONS["play"], name="button_play"),
-                Button(self.MAINMENU.BUTTONS["config"], name="button_config"),
-                Button(self.MAINMENU.BUTTONS["credits"], name="button_credits"),
-                Button(self.MAINMENU.BUTTONS["exit"], name="button_exit"),
-
-                id="MainMenuButtons",
-            ),
-            id="MainMenuContainer",
-        )
-        
+            with Horizontal(id="MainMenuButtons"):
+                yield Button(self.MAINMENU.BUTTONS["play"], name="button_play")
+                yield Button(self.MAINMENU.BUTTONS["config"], name="button_config")
+                yield Button(self.MAINMENU.BUTTONS["credits"], name="button_credits")
+                yield Button(self.MAINMENU.BUTTONS["exit"], name="button_exit")
         
     def on_button_pressed(self, event: Button.Pressed) -> None:
         match event.button.name:
@@ -79,21 +73,19 @@ class FindLobby(ModalScreen):
 
     
     def compose(self) -> ComposeResult:
-        yield Vertical(
-            Horizontal(
-                Input(placeholder="ip address", type="text", id="lobby_input_address"),
-                Input(placeholder="port", type="number", max_length=5, id="lobby_input_port"),
-            ),
+        with Vertical(id="FindLobbyContainer"):
+            with Horizontal():
+                yield Input(placeholder="ip address", type="text", id="lobby_input_address")
+                yield Input(placeholder="port", type="number", max_length=5, id="lobby_input_port")
             
-            Horizontal(
-                Button("Host", name="button_host"),
-                Button("Join", name="button_join"),
-            ),
+            with Horizontal():
+                yield Button("Host", name="button_host")
+                yield Button("Join", name="button_join")
+
             
-            Label("hi", id="cool_label"),
+            yield Label("hi", id="cool_label")
             
-            id="FindLobbyContainer",
-        )
+            
     
     def on_button_pressed(self, event: Button.Pressed) -> None:
         addr_input = self.query_one("#lobby_input_address", Input)

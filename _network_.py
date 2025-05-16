@@ -26,8 +26,6 @@ class Server:
         self.running = True
 
         
-        a = 2/0
-        print(a)
 
         self.server_started.emit()
         
@@ -112,4 +110,4 @@ class Client:
         self.running = False
         self.sock.close()
         
-        
+

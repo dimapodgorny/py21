@@ -36,8 +36,8 @@ def update_requirements_file():
             stdout=f
         )
 
-update_requirements_file()
 ensure_all_packages()
+update_requirements_file()
 
 #
 

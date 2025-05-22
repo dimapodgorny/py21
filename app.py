@@ -8,14 +8,14 @@ venv_name : str = "py21env"
 
 python_path = os.path.join(os.getcwd(), venv_name, "Scripts", "python.exe")
 
-def ensure_venv() -> bool:
-    print("Ensuring virtual environment...")
-    if not os.path.exists(venv_name):
-        print("Creating virtual environment...")
-        subprocess.run([sys.executable, "-m", "venv", venv_name])
-        print(f"Created environment '{venv_name}'")
-    else:
-        print("Virtual environment already exists.")
+# def ensure_venv() -> bool:
+#     print("Ensuring virtual environment...")
+#     if not os.path.exists(venv_name):
+#         print("Creating virtual environment...")
+#         subprocess.run([sys.executable, "-m", "venv", venv_name])
+#         print(f"Created environment '{venv_name}'")
+#     else:
+#         print("Virtual environment already exists.")
         
 
 def ensure_all_packages() -> None:
@@ -62,11 +62,12 @@ class Py21App(App):
         
     
     def on_mount(self) -> None:
+        self.client.server = self.server
+        
         self.push_screen(MainMenu())
         
     def action_exit_app(self) -> None:
-        self.exit()
-        
+        self.exit()  
     
     async def on_event(self, event) -> None:
         if isinstance(event, MouseEvent):
@@ -78,3 +79,4 @@ class Py21App(App):
 if __name__ == "__main__":
     app = Py21App()
     app.run()
+    

@@ -116,6 +116,7 @@ class Client:
         
         
         
+        
 if __name__ == "__main__":
     while True:
         i = input("host or join\n> ")

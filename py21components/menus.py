@@ -67,11 +67,11 @@ class Lobby(Screen):
         
         label = self.query_one("#test", Label)
         label.update(
-            self.app.client.get_peers_list()
+            str(self.app.client.server.clients)
         )
 
         self.PeersList.clear()
-        for c in self.app.client.get_peer_names():
+        for c in self.app.client.server.clients:
             item = ListItem(Label(f"{c}"))
             self.PeersList.append(item)
             

@@ -17,9 +17,19 @@ git clone https://github.com/dimapodgorny/py21.git
 cd py21
 ```
 
-## 2. **Run app.py**
-Runnning `app.py` will automatically try to install all requirements and packages, so you won't have to do it manually.
-However if this fails, you can run:
+## 2. **Create the virtual environment and give it the name `py21env`**
+```bash
+python.exe -m venv py21env
+```
+
+## 3. **Activate the virtual environment**
+On powershell:
+```ps1
+Set-ExecutionPolicy Unrestricted -Scope Process
+py21env\Scripts\Activate.ps1
+```
+
+## 4. **Run app.py**
 ```bash
 /py21env/Scripts/python.exe -m pip install -r requirements.exe
 ```
